@@ -1,0 +1,15 @@
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\bin\Debug\net6.0\InterpreterOfLisp.exe
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\bin\Debug\net6.0\InterpreterOfLisp.deps.json
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\bin\Debug\net6.0\InterpreterOfLisp.runtimeconfig.json
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\bin\Debug\net6.0\InterpreterOfLisp.dll
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\bin\Debug\net6.0\InterpreterOfLisp.pdb
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.csproj.AssemblyReference.cache
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.AssemblyInfoInputs.cache
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.AssemblyInfo.cs
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.csproj.CoreCompileInputs.cache
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.dll
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\refint\InterpreterOfLisp.dll
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.pdb
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\InterpreterOfLisp.genruntimeconfig.cache
+C:\Users\Damir\Documents\Compilers Construction\InterpreterOfLisp\obj\Debug\net6.0\ref\InterpreterOfLisp.dll
