@@ -19,5 +19,39 @@ public enum TokenCode
     TimesTk,
     DivideTk,
     
+    /* LIST OPERATIONS */
+    HeadTk,
+    TailTk,
+    ConsTk,
     
+    /* COMPARISONS */
+    EqualTk,
+    NonEqualTk,
+    LessTk,
+    LessEqTk,
+    GreaterTk,
+    GreaterEqTk,
+    
+    /* PREDICATES */
+    IsIntTk,
+    IsRealTk,
+    IsBoolTk,
+    IsNullTk,
+    IsAtomTk,
+    IsListTk,
+    
+    /* LOGICAL OPERATORS */
+    AndTk,
+    OrTk,
+    XorTk,
+    NotTk,
+    
+    /* EVALUATOR */
+    EvalTk,
+    
+    /* TYPES */
+    IntTk,
+    RealTk,
+    BoolTk,
+    IdentifierTk
 }
