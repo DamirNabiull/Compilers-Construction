@@ -53,5 +53,9 @@ public enum TokenCode
     IntTk,
     RealTk,
     BoolTk,
-    IdentifierTk
+    IdentifierTk,
+    
+    /* PARENTHESIS */
+    OpenParTk,
+    CloseParTk
 }
