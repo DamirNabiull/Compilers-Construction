@@ -57,5 +57,11 @@ public enum TokenCode
     
     /* PARENTHESIS */
     OpenParTk,
-    CloseParTk
+    CloseParTk,
+    
+    /* EOF */
+    EofTk,
+    
+    /* INCORRECT TOKEN*/
+    BadTk
 }
