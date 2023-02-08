@@ -15,10 +15,10 @@ public class Tokenizer
     public void GetAllTokens()
     {
         while (_position < _text.Length)
-            GetToken();
+            GetNextToken();
     }
 
-    private Token GetToken()
+    private Token GetNextToken()
     {
         object value = GetNextSyntaxElement();
         var start = _position;
@@ -26,6 +26,9 @@ public class Tokenizer
         
         switch (value)
         {
+            
+            // ДОПИСАТЬ ВСЕ КЕЙСЫ
+            
             case "(":
                 code = TokenCode.OpenParTk;
                 break;
@@ -41,7 +44,116 @@ public class Tokenizer
             case "\'":
                 code = TokenCode.QuoteTk;
                 break;
+            case "setq":
+                code = TokenCode.SetqTk;
+                break;
+            case "func":
+                code = TokenCode.FuncTk;
+                break;
+            case "lambda":
+                code = TokenCode.LambdaTk;
+                break;
+            case "prog":
+                code = TokenCode.ProgTk;
+                break;
+            case "cond":
+                code = TokenCode.CondTk;
+                break;
+            case "while":
+                code = TokenCode.WhileTk;
+                break;
+            case "return":
+                code = TokenCode.ReturnTk;
+                break;
+            case "break":
+                code = TokenCode.BreakTk;
+                break;
+            case "plus":
+                code = TokenCode.PlusTk;
+                break;
+            case "+":
+                code = TokenCode.PlusTk;
+                break;
+            case "minus":
+                code = TokenCode.MinusTk;
+                break;
+            case "-":
+                code = TokenCode.MinusTk;
+                break;
+            case "times":
+                code = TokenCode.TimesTk;
+                break;
+            case "*":
+                code = TokenCode.TimesTk;
+                break;
+            case "divide":
+                code = TokenCode.DivideTk;
+                break;
+            case "/":
+                code = TokenCode.DivideTk;
+                break;
+            case "head":
+                code = TokenCode.HeadTk;
+                break;
+            case "tail":
+                code = TokenCode.TailTk;
+                break;
+            case "cons":
+                code = TokenCode.ConsTk;
+                break;
+            case "equal":
+                code = TokenCode.EqualTk;
+                break;
+            case "nonequal":
+                code = TokenCode.NonEqualTk;
+                break;
+            case "less":
+                code = TokenCode.LessTk;
+                break;
+            case "greater":
+                code = TokenCode.GreaterTk;
+                break;
+            case "lesseq":
+                code = TokenCode.LessEqTk;
+                break;
+            case "greatereq":
+                code = TokenCode.GreaterEqTk;
+                break;
+            case "isint":
+                code = TokenCode.IsIntTk;
+                break;
+            case "isreal":
+                code = TokenCode.IsRealTk;
+                break;
+            case "isbool":
+                code = TokenCode.IsBoolTk;
+                break;
+            case "isnull":
+                code = TokenCode.IsNullTk;
+                break;
+            case "isatom":
+                code = TokenCode.IsAtomTk;
+                break;
+            case "islist":
+                code = TokenCode.IsListTk;
+                break;
+            case "and":
+                code = TokenCode.AndTk;
+                break;
+            case "or":
+                code = TokenCode.OrTk;
+                break;
+            case "xor":
+                code = TokenCode.XorTk;
+                break;
+            case "not":
+                code = TokenCode.NotTk;
+                break;
+            case "eval":
+                code = TokenCode.EvalTk;
+                break;
             default:
+                // Добавить определение типов
                 code = TokenCode.IdentifierTk;
                 break;
         }
