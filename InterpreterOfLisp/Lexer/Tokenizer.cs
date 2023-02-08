@@ -182,6 +182,9 @@ public class Tokenizer
     
         switch (value)
         {
+
+            // Дописать +, - и остальные кейсы
+
             case "(":
                 break;
             case ")":
