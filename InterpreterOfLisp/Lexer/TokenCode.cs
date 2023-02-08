@@ -5,7 +5,7 @@ public enum TokenCode
     /* SPECIAL FORMS */
     QuoteTk,
     SetqTk,
-    FunkTk,
+    FuncTk,
     LambdaTk,
     ProgTk,
     CondTk,
