@@ -76,6 +76,8 @@ public class Tokenizer
                 break;
             case "\0":
                 break;
+            case "\'":
+                break;
             default:
                 while (GetCurrentChar() != '\0' 
                        && GetCurrentChar() != '(' 
