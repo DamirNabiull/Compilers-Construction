@@ -19,8 +19,5 @@ public enum TokenCode
     CloseParTk,
     
     /* EOF */
-    EofTk,
-    
-    /* INCORRECT TOKEN*/
-    BadTk
+    EofTk
 }
