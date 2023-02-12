@@ -2,58 +2,17 @@
 
 public enum TokenCode
 {
-    /* SPECIAL FORMS */
-    QuoteTk,
-    SetqTk,
-    FuncTk,
-    LambdaTk,
-    ProgTk,
-    CondTk,
-    WhileTk,
-    ReturnTk,
-    BreakTk,
-    
-    /* PREDEFINED FUNCTIONS */
-    PlusTk,
-    MinusTk,
-    TimesTk,
-    DivideTk,
-    
-    /* LIST OPERATIONS */
-    HeadTk,
-    TailTk,
-    ConsTk,
-    
-    /* COMPARISONS */
-    EqualTk,
-    NonEqualTk,
-    LessTk,
-    LessEqTk,
-    GreaterTk,
-    GreaterEqTk,
-    
-    /* PREDICATES */
-    IsIntTk,
-    IsRealTk,
-    IsBoolTk,
-    IsNullTk,
-    IsAtomTk,
-    IsListTk,
-    
-    /* LOGICAL OPERATORS */
-    AndTk,
-    OrTk,
-    XorTk,
-    NotTk,
-    
-    /* EVALUATOR */
-    EvalTk,
-    
     /* TYPES */
     IntTk,
     RealTk,
     BoolTk,
     IdentifierTk,
+    
+    /* QUOTE */
+    QuoteTk,
+    
+    /* NULL */
+    NullTk,
     
     /* PARENTHESIS */
     OpenParTk,
