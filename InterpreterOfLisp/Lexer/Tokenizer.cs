@@ -1,190 +1,96 @@
-﻿using System.Text.RegularExpressions;
-
-namespace InterpreterOfLisp.Lexer;
+﻿namespace InterpreterOfLisp.Lexer;
 
 public class Tokenizer
 {
     private readonly string _text;
+    private int _linePos = 1;
     private int _position = 0;
-    
+    private int _lineNumber = 1;
+    private readonly List<Token> _tokens = new List<Token>();
+
     public Tokenizer(string text)
     {
         _text = text;
     }
 
-    public void GetAllTokens()
+    private IEnumerable<Token> GetAllTokens()
     {
         while (_position < _text.Length)
-            GetNextToken();
+            _tokens.Add(GetNextToken());
+
+        return _tokens;
+    }
+
+    public void PrintAllTokens()
+    {
+        GetAllTokens();
+        foreach (var token in _tokens)
+        {
+            Console.WriteLine(token.ToString());
+        }
     }
 
     private Token GetNextToken()
     {
-        object value = GetNextSyntaxElement();
-        var start = _position;
-        var code = TokenCode.BadTk;
+        var (start, element) = GetNextSyntaxElement();
+        var tokenSpan = new Span(start, _linePos, _lineNumber);
         
-        switch (value)
+        TokenCode code;
+        Token recognizedToken;
+        
+        switch (element)
         {
-            
-            // ДОПИСАТЬ ВСЕ КЕЙСЫ
-            
             case "(":
-                code = TokenCode.OpenParTk;
+                recognizedToken = new Token(
+                    span: tokenSpan, 
+                    code: TokenCode.OpenParTk, 
+                    value: element);
                 break;
             case ")":
-                code = TokenCode.CloseParTk;
+                recognizedToken = new Token(
+                    span: tokenSpan, 
+                    code: TokenCode.OpenParTk, 
+                    value: element);
                 break;
             case "\0":
-                code = TokenCode.EofTk;
-                break;
-            case "quote":
-                code = TokenCode.QuoteTk;
+                recognizedToken = new Token(
+                    span: tokenSpan, 
+                    code: TokenCode.EofTk, 
+                    value: element);
                 break;
             case "\'":
-                code = TokenCode.QuoteTk;
+                recognizedToken = new Token(
+                    span: tokenSpan, 
+                    code: TokenCode.QuoteTk, 
+                    value: element);
                 break;
-            case "setq":
-                code = TokenCode.SetqTk;
-                break;
-            case "func":
-                code = TokenCode.FuncTk;
-                break;
-            case "lambda":
-                code = TokenCode.LambdaTk;
-                break;
-            case "prog":
-                code = TokenCode.ProgTk;
-                break;
-            case "cond":
-                code = TokenCode.CondTk;
-                break;
-            case "while":
-                code = TokenCode.WhileTk;
-                break;
-            case "return":
-                code = TokenCode.ReturnTk;
-                break;
-            case "break":
-                code = TokenCode.BreakTk;
-                break;
-            case "plus":
-                code = TokenCode.PlusTk;
-                break;
-            case "+":
-                code = TokenCode.PlusTk;
-                break;
-            case "minus":
-                code = TokenCode.MinusTk;
-                break;
-            case "-":
-                code = TokenCode.MinusTk;
-                break;
-            case "times":
-                code = TokenCode.TimesTk;
-                break;
-            case "*":
-                code = TokenCode.TimesTk;
-                break;
-            case "divide":
-                code = TokenCode.DivideTk;
-                break;
-            case "/":
-                code = TokenCode.DivideTk;
-                break;
-            case "head":
-                code = TokenCode.HeadTk;
-                break;
-            case "tail":
-                code = TokenCode.TailTk;
-                break;
-            case "cons":
-                code = TokenCode.ConsTk;
-                break;
-            case "equal":
-                code = TokenCode.EqualTk;
-                break;
-            case "nonequal":
-                code = TokenCode.NonEqualTk;
-                break;
-            case "less":
-                code = TokenCode.LessTk;
-                break;
-            case "greater":
-                code = TokenCode.GreaterTk;
-                break;
-            case "lesseq":
-                code = TokenCode.LessEqTk;
-                break;
-            case "greatereq":
-                code = TokenCode.GreaterEqTk;
-                break;
-            case "isint":
-                code = TokenCode.IsIntTk;
-                break;
-            case "isreal":
-                code = TokenCode.IsRealTk;
-                break;
-            case "isbool":
-                code = TokenCode.IsBoolTk;
-                break;
-            case "isnull":
-                code = TokenCode.IsNullTk;
-                break;
-            case "isatom":
-                code = TokenCode.IsAtomTk;
-                break;
-            case "islist":
-                code = TokenCode.IsListTk;
-                break;
-            case "and":
-                code = TokenCode.AndTk;
-                break;
-            case "or":
-                code = TokenCode.OrTk;
-                break;
-            case "xor":
-                code = TokenCode.XorTk;
-                break;
-            case "not":
-                code = TokenCode.NotTk;
-                break;
-            case "eval":
-                code = TokenCode.EvalTk;
+            case "null":
+                recognizedToken = new Token(
+                    span: tokenSpan, 
+                    code: TokenCode.NullTk, 
+                    value: element);
                 break;
             default:
-                // Добавить определение типов
-                code = TokenCode.IdentifierTk;
+                recognizedToken = GrammarValidator.RecognizeToken(
+                    span: tokenSpan,
+                    value: element);
                 break;
         }
         
-        Console.WriteLine($"{value} - {code}");
-
-        return new Token(start, _position, code, value);
-    }
-    
-    // Можно уточнить, нужен ли нам span, если нет, то используем это
-    public void GetAllSyntaxElements()
-    {
-        var matchList = Regex.Matches(_text, @"[()']|[a-zA-Z0-9]+|[+-][1]");
-        var list = matchList.Cast<Match>().Select(match => match.Value).ToList();
-        foreach (var el in list)
-        {
-            Console.WriteLine(el);
-        }
+        return recognizedToken;
     }
 
-    private string GetNextSyntaxElement()
+    private (int, string) GetNextSyntaxElement()
     {
         SkipSpaces();
         var value = GetCurrentChar().ToString();
+        var start = _linePos;
+        
         _position++;
-    
+        _linePos++;
+
         switch (value)
         {
-
-            // Дописать +, - и остальные кейсы
-
             case "(":
                 break;
             case ")":
@@ -197,21 +103,32 @@ public class Tokenizer
                 while (GetCurrentChar() != '\0' 
                        && GetCurrentChar() != '(' 
                        && GetCurrentChar() != ')' 
-                       && GetCurrentChar() != ' ')
+                       && GetCurrentChar() != ' '
+                       && GetCurrentChar() != '\n')
                 {
                     value += GetCurrentChar();
                     _position++;
+                    _linePos++;
                 }
                 break;
         }
     
-        return value;
+        return (start, value);
     }
 
     private void SkipSpaces()
     {
-        while (_text[_position] == ' ')
+        while (_text[_position] == ' ' || _text[_position] == '\n')
+        {
+            if (_text[_position] == '\n')
+            {
+                _lineNumber++;
+                _linePos = 0;
+            }
+            
             _position++;
+            _linePos++;
+        }
     }
 
     private char GetCurrentChar()
