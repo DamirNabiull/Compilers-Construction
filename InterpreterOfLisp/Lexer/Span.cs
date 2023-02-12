@@ -2,14 +2,21 @@
 
 public class Span
 {
-    public int Start { get; }
-    public int End { get; }
-    public int Length { get; }
+    private readonly int _start;
+    private readonly int _end;
+    private readonly int _length;
+    private readonly int _line;
 
-    public Span(int start, int end)
+    public Span(int start, int end, int line)
     {
-        Start = start;
-        End = end;
-        Length = end - start;
+        _start = start;
+        _end = end;
+        _length = end - start;
+        _line = line;
+    }
+
+    public override string ToString()
+    {
+        return $"\tLine: {_line}\n\tStart: {_start}\n\tEnd: {_end}\n\tLength: {_length}\n";
     }
 }
