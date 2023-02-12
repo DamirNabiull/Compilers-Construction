@@ -49,7 +49,7 @@ public class Tokenizer
             case ")":
                 recognizedToken = new Token(
                     span: tokenSpan, 
-                    code: TokenCode.OpenParTk, 
+                    code: TokenCode.CloseParTk, 
                     value: element);
                 break;
             case "\0":
