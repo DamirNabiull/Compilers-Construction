@@ -37,6 +37,6 @@ public static class GrammarValidator
                 value: value);
         
         // Сделать красиво тут
-        throw new SyntaxErrorException($"Incorrect syntax: {value==" "}\n{span}");
+        throw new SyntaxErrorException($"Incorrect syntax:\n{span}");
     }
 }
