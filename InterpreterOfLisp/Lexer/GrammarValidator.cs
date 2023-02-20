@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace InterpreterOfLisp.Lexer;
@@ -17,12 +18,12 @@ public static class GrammarValidator
                 span: span, 
                 code: TokenCode.IntTk, 
                 value: int.Parse(value));
-
+        
         if (RealRegEx.IsMatch(value))
             return new Token(
                 span: span, 
                 code: TokenCode.RealTk, 
-                value: double.Parse(value));
+                value: double.Parse(value, CultureInfo.InvariantCulture));
 
         if (BoolRegEx.IsMatch(value))
             return new Token(
