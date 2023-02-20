@@ -22,6 +22,7 @@ public class Token
 
     public override string ToString()
     {
-        return $"{Value} - {Code}\n{TextSpan}";
+        return $"{Value} - {Code}";
+        // return $"{Value} - {Code}\n{TextSpan}";
     }
 }
