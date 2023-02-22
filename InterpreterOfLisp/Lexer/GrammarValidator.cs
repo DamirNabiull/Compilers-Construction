@@ -11,32 +11,22 @@ public static class GrammarValidator
     private static readonly Regex BoolRegEx = new Regex(@"^(true|false)$");
     private static readonly Regex IdentifierRegEx = new Regex(@"^[a-zA-z][a-zA-Z\d]*$");
     
-    public static Token RecognizeToken(Span span, string value)
+    public static (TokenCode, object) RecognizeToken(Span span, object element)
     {
+        var value = element.ToString()!;
+            
         if (IntegerRegEx.IsMatch(value))
-            return new Token(
-                span: span, 
-                code: TokenCode.IntTk, 
-                value: int.Parse(value));
-        
+            return (TokenCode.IntTk, int.Parse(value));
+
         if (RealRegEx.IsMatch(value))
-            return new Token(
-                span: span, 
-                code: TokenCode.RealTk, 
-                value: double.Parse(value, CultureInfo.InvariantCulture));
+            return (TokenCode.RealTk, double.Parse(value, CultureInfo.InvariantCulture));
 
         if (BoolRegEx.IsMatch(value))
-            return new Token(
-                span: span, 
-                code: TokenCode.BoolTk, 
-                value: bool.Parse(value));
+            return (TokenCode.BoolTk, bool.Parse(value));
 
         if (IdentifierRegEx.IsMatch(value))
-            return new Token(
-                span: span, 
-                code: TokenCode.IdentifierTk, 
-                value: value);
-        
+            return (TokenCode.IdentifierTk, value);
+
         // Сделать красиво тут
         throw new SyntaxErrorException($"Incorrect syntax:\n{span}");
     }

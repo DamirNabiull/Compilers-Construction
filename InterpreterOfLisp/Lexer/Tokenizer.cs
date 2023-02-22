@@ -25,57 +25,45 @@ public class Tokenizer
     {
         GetAllTokens();
         foreach (var token in _tokens)
-        {
             Console.WriteLine(token.ToString());
-        }
     }
 
     private Token GetNextToken()
     {
-        var (start, element) = GetNextSyntaxElement();
+        (var start, object element) = GetNextSyntaxElement();
         var tokenSpan = new Span(start, _linePos, _lineNumber);
         
         TokenCode code;
-        Token recognizedToken;
-        
+
         switch (element)
         {
             case "(":
-                recognizedToken = new Token(
-                    span: tokenSpan, 
-                    code: TokenCode.OpenParTk, 
-                    value: element);
+                code = TokenCode.OpenParTk;
                 break;
             case ")":
-                recognizedToken = new Token(
-                    span: tokenSpan, 
-                    code: TokenCode.CloseParTk, 
-                    value: element);
+                code = TokenCode.CloseParTk;
                 break;
             case "\0":
-                recognizedToken = new Token(
-                    span: tokenSpan, 
-                    code: TokenCode.EofTk, 
-                    value: element);
+                code = TokenCode.EofTk;
                 break;
             case "\'":
-                recognizedToken = new Token(
-                    span: tokenSpan, 
-                    code: TokenCode.QuoteTk, 
-                    value: element);
+                code = TokenCode.QuoteTk;
                 break;
             case "null":
-                recognizedToken = new Token(
-                    span: tokenSpan, 
-                    code: TokenCode.NullTk, 
-                    value: element);
+                code = TokenCode.NullTk;
                 break;
             default:
-                recognizedToken = GrammarValidator.RecognizeToken(
+                (code, element) = GrammarValidator.RecognizeToken(
                     span: tokenSpan,
-                    value: element);
+                    element: element);
                 break;
         }
+
+        var recognizedToken = new Token(
+            span: tokenSpan, 
+            code: code, 
+            value: element
+        );
         
         return recognizedToken;
     }
