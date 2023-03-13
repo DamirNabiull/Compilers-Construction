@@ -10,10 +10,11 @@ public class Tokenizer
 
     public Tokenizer(string text)
     {
-        _text = text;
+        // TODO: надо бы подумать как это хендлить аккуратно
+        _text = text + (text.Last() != '\0' ? '\0' : "");
     }
 
-    private IEnumerable<Token> GetAllTokens()
+    public IEnumerable<Token> GetAllTokens()
     {
         while (_position < _text.Length)
             _tokens.Add(GetNextToken());
