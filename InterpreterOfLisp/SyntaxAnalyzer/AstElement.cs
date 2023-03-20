@@ -1,13 +1,12 @@
+using Token = InterpreterOfLisp.Lexer.Token;
+
 namespace InterpreterOfLisp.SyntaxAnalyzer;
 
 public interface IAstNodeWithChildren {
-    public List<AstElementNode> Children {get; set;}
+    public List<AstElementNode> Children { get; set; }
 }
 
-public class AstNode
-{
-
-}
+public class AstNode { }
 
 public class AstProgramNode : AstNode, IAstNodeWithChildren {
     public List<AstElementNode> Children {get; set;}
@@ -16,14 +15,12 @@ public class AstProgramNode : AstNode, IAstNodeWithChildren {
         Children = children;
     }
 
-    public override String ToString() {
+    public override string ToString() {
         return "AstProgramNode()";
     }
 }
 
-public class AstElementNode : AstNode {
-
-}
+public class AstElementNode : AstNode { }
 
 public class AstListNode : AstElementNode, IAstNodeWithChildren {
     public List<AstElementNode> Children {get; set;}
@@ -32,7 +29,7 @@ public class AstListNode : AstElementNode, IAstNodeWithChildren {
         Children = children;
     }
 
-    public override String ToString() {
+    public override string ToString() {
         var childrenStrings = String.Join(",\n\t", Children);
 
         return "AstListNode()";
@@ -40,25 +37,25 @@ public class AstListNode : AstElementNode, IAstNodeWithChildren {
 }
 
 public class AstIdentifierNode : AstElementNode {
-    public Lexer.Token Token;
+    public Token Token;
 
-    public AstIdentifierNode(Lexer.Token token) {
+    public AstIdentifierNode(Token token) {
         Token = token;
     }
 
-    public override String ToString() {
+    public override string ToString() {
         return $"AstIdentifierNode({Token.Value})";
     }
 }
 
 public class AstLiteralNode : AstElementNode {
-    public Lexer.Token Token;
+    public Token Token;
 
-    public AstLiteralNode(Lexer.Token token) {
+    public AstLiteralNode(Token token) {
         Token = token;
     }
 
-    public override String ToString() {
+    public override string ToString() {
         return $"AstLiteralNode({Token.Value})";
     }
 }
