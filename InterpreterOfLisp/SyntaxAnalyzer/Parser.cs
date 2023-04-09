@@ -84,7 +84,7 @@ public class AstParser
 
         var element = ParseElement();
 
-        return new AstListNode(new List<AstElementNode>{
+        return new AstQuoteNode(new List<AstElementNode>{
             new AstIdentifierNode(quoteToken),
             element
         });
@@ -113,6 +113,31 @@ public class AstParser
         throw new SyntaxErrorException($"Can't parse element");
     }
 
+    // Will return plain list node if identifier is not a keyword
+    private AstListNode TryParseKeyword(AstIdentifierNode identifier, List<AstElementNode> elements) {
+        switch (identifier.Token.Value) {
+            case "quote":
+                return new AstQuoteNode(elements);
+            case "setq":
+                return new AstSetQNode(elements);
+            case "func":
+                return new AstFuncNode(elements);
+            case "lambda":
+                return new AstLambdaNode(elements);
+            case "prog":
+                return new AstProgNode(elements);
+            case "cond":
+                return new AstCondNode(elements);
+            case "while":
+                return new AstWhileNode(elements);
+            case "return":
+                return new AstReturnNode(elements);
+            case "break":
+                return new AstBreakNode(elements);
+        }
+        return new AstListNode(elements);
+    }
+
     private AstListNode ParseList() {
         var currentToken = CurrentToken();
 
@@ -122,10 +147,16 @@ public class AstParser
         Debug.Assert(currentToken is not null && currentToken.Code == TokenCode.OpenParTk);
 
         currentToken = NextToken();
-        
+
         while (currentToken is not null) {
             switch (currentToken.Code) {
                 case TokenCode.CloseParTk:
+                    // parse keyword node
+                    if (elements.Count != 0 && elements[0] is AstIdentifierNode) {
+                        AstIdentifierNode node = (AstIdentifierNode) elements[0];
+                        return TryParseKeyword(node, elements);
+                    }
+
                     return new AstListNode(elements);
                 case TokenCode.EofTk:
                     break;
