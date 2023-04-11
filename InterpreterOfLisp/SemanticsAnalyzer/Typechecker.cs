@@ -97,7 +97,7 @@ public class Typechecker {
 
     protected TypecheckerEnv TypecheckBreak(TypecheckerEnv env, AstBreakNode node, AbsType t) {
         if (!env.IsInKeywordContext(new List<string> {"while"})) {
-            throw new Exception("Unexpected while keyword");
+            throw new Exception("Unexpected break keyword");
         }
         return env;
     }
@@ -149,6 +149,8 @@ public class Typechecker {
             this.TypecheckBreak(env, breakNode, t);
         } else if (node is AstIdentifierNode idNode) {
             this.TypecheckIdentifier(env, idNode, t);
+        } else if (node is AstListNode listNode) {
+            this.TypecheckList(env, listNode, t);
         }
     }
 }
