@@ -1,6 +1,7 @@
 ﻿using InterpreterOfLisp.Lexer;
 using InterpreterOfLisp.SyntaxAnalyzer;
 using InterpreterOfLisp.FileProcessing;
+using InterpreterOfLisp.SemanticsAnalyzer;
 
 namespace InterpreterOfLisp;
 class Program
@@ -19,5 +20,8 @@ class Program
         tokenizer.PrintAllTokens();
         var syntaxAnalyzer = new AstParser(tokenizer.GetAllTokens());
         syntaxAnalyzer.PrintNodes();
+        var rootNode = syntaxAnalyzer.Parse();
+        var semanticsAnalyzer = new Typechecker(rootNode);
+        semanticsAnalyzer.TypecheckProgram();
     }
 }
