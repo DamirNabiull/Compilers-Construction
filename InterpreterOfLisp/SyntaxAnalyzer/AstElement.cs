@@ -96,7 +96,7 @@ public class AstFuncNode : AstKeywordNode {
         if (children[2] is not AstListNode) {
             throw new SyntaxErrorException("Second argument of `func` must be List");
         }
-        var listNode = ((AstListNode) children[1]);
+        var listNode = ((AstListNode) children[2]);
 
         if (!listNode.Children.All(child => child is AstIdentifierNode)) {
             throw new SyntaxErrorException($"Second parameter of `prog` must be list of Atoms, but it's not");
