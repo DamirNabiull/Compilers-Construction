@@ -3,7 +3,8 @@ using InterpreterOfLisp.SemanticsAnalyzer.Types;
 namespace InterpreterOfLisp.SemanticsAnalyzer;
 
 public class TypecheckerEnv {
-    public static readonly Dictionary<string, AbsType> DEFAULT_ENV = new Dictionary<string, AbsType> {
+    private static readonly Dictionary<string, AbsType> DefaultEnv = new()
+    {
         // arithmetic
         {
             "plus", 
@@ -115,46 +116,46 @@ public class TypecheckerEnv {
         },
     };
 
-    private Dictionary<string, AbsType> currentEnv;
-    private List<string> keywordContext;
+    private readonly Dictionary<string, AbsType> _currentEnv;
+    private readonly List<string> _keywordContext;
 
     public TypecheckerEnv() {
-        this.currentEnv = new Dictionary<string, AbsType>(TypecheckerEnv.DEFAULT_ENV);
-        this.keywordContext = new List<string>{};
+        this._currentEnv = new Dictionary<string, AbsType>(TypecheckerEnv.DefaultEnv);
+        this._keywordContext = new List<string>{};
     }
 
     public void AddKeywordContext(string k) {
-        this.keywordContext.Add(k);
+        this._keywordContext.Add(k);
     }
 
     public Boolean IsInKeywordContext(List<string> k) {
         foreach (var i in k) {
-            if (this.keywordContext.IndexOf(i) != -1)
+            if (this._keywordContext.IndexOf(i) != -1)
                 return true;
         }
         return false;
     }
 
     public string? PopKeywordContext(string k) {
-        int found = this.keywordContext.IndexOf(k);
+        int found = this._keywordContext.IndexOf(k);
         if (found == -1)
             return null;
-        var res = this.keywordContext[found];
-        this.keywordContext.RemoveAt(found);
+        var res = this._keywordContext[found];
+        this._keywordContext.RemoveAt(found);
         return res;
     }
 
     public void AddEnvEntry(string id, AbsType t) {
-        this.currentEnv.Add(id, t);
+        this._currentEnv.Add(id, t);
     }
 
     public void EnvPopEntry(string id) {
-        this.currentEnv.Remove(id);
+        this._currentEnv.Remove(id);
     }
 
     public AbsType? EnvGetEntry(string id) {
         AbsType? value;
-        bool hasValue = this.currentEnv.TryGetValue(id, out value);
+        bool hasValue = this._currentEnv.TryGetValue(id, out value);
         if (hasValue)
             return value;
         return null;
