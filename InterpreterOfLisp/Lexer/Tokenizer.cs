@@ -31,7 +31,7 @@ public class Tokenizer
 
     private Token GetNextToken()
     {
-        (var start, object element) = GetNextSyntaxElement();
+        (var start, object? element) = GetNextSyntaxElement();
         var tokenSpan = new Span(start, _linePos, _lineNumber);
         
         TokenCode code;
@@ -52,6 +52,7 @@ public class Tokenizer
                 break;
             case "null":
                 code = TokenCode.NullTk;
+                element = null;
                 break;
             default:
                 (code, element) = GrammarValidator.RecognizeToken(

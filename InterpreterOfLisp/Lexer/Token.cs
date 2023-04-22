@@ -6,7 +6,7 @@ public class Token
     public TokenCode Code;
     public object? Value;
 
-    public Token(Span span, TokenCode code, object value)
+    public Token(Span span, TokenCode code, object? value)
     {
         TextSpan = span;
         Code = code;
