@@ -39,7 +39,7 @@ public class Environment
         "eval"
     };
 
-    private Dictionary<string, AstElementNode> _currentEnv;
+    private readonly Dictionary<string, AstElementNode> _currentEnv;
 
     public Environment() {
         _currentEnv = new Dictionary<string, AstElementNode>();
