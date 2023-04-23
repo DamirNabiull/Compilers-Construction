@@ -1,11 +1,10 @@
-﻿using InterpreterOfLisp.SemanticsAnalyzer.Types;
-using InterpreterOfLisp.SyntaxAnalyzer;
+﻿using InterpreterOfLisp.SyntaxAnalyzer;
 
 namespace InterpreterOfLisp.Evaluation;
 
 public class Environment
 {
-    public static readonly List<string> PredefinedEnv = new()
+    private static readonly List<string> _predefinedEnv = new()
     {
         // arithmetic
         "plus",
@@ -39,23 +38,32 @@ public class Environment
         "eval"
     };
 
-    private readonly Dictionary<string, AstElementNode> _currentEnv;
+    private readonly Dictionary<string, AstElementNode> _localEnv;
 
     public Environment() {
-        _currentEnv = new Dictionary<string, AstElementNode>();
+        _localEnv = new Dictionary<string, AstElementNode>();
     }
-
-    public void AddEnvEntry(string id, AstElementNode t) {
-        _currentEnv.Add(id, t);
+    
+    public Environment(Environment env) {
+        _localEnv = new Dictionary<string, AstElementNode>(env.GetEnv());
     }
-
-    public void EnvPopEntry(string id) {
-        _currentEnv.Remove(id);
-    }
-
-    public AstElementNode EnvGetEntry(string id)
+    
+    private Dictionary<string, AstElementNode> GetEnv()
     {
-        _currentEnv.TryGetValue(id, out var value);
+        return _localEnv;
+    }
+
+    public void AddEntry(string id, AstElementNode t) {
+        _localEnv.Add(id, t);
+    }
+
+    public void PopEntry(string id) {
+        _localEnv.Remove(id);
+    }
+
+    public AstElementNode GetEntry(string id)
+    {
+        _localEnv.TryGetValue(id, out var value);
         
         if (value == null)
             throw new Exception("Undefined identifier : " + id);

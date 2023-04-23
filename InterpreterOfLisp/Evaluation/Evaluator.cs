@@ -23,6 +23,9 @@ public class Evaluator
     {
         // Eval Identifier
         Console.WriteLine("Eval Identifier");
+
+        var id = node.Token.Value!.ToString()!;
+        env.GetEntry(id);
         return new AstElementNode();
     }
 
