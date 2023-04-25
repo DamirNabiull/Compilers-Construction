@@ -4,40 +4,6 @@ namespace InterpreterOfLisp.Evaluation;
 
 public class Environment
 {
-    private static readonly List<string> _predefinedEnv = new()
-    {
-        // arithmetic
-        "plus",
-        "minus",
-        "times",
-        "divide",
-        // lists
-        "head", 
-        "tail", 
-        "cons", 
-        // comparisons
-        "equal", 
-        "nonequal", 
-        "less", 
-        "lesseq", 
-        "greater", 
-        "greatereq", 
-        // predicates
-        "isint", 
-        "isreal", 
-        "isbool", 
-        "isnull", 
-        "isatom", 
-        "islist", 
-        // logical
-        "and", 
-        "or", 
-        "xor", 
-        "not", 
-        // eval
-        "eval"
-    };
-
     private readonly Dictionary<string, AstElementNode> _localEnv;
 
     public Environment() {

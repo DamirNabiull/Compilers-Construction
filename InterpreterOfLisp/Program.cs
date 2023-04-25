@@ -10,7 +10,7 @@ class Program
 {
     private static void Main(string[] args)
     {
-        var sample = "sample_1.lsp";
+        var sample = "sample_4.lsp";
         
         var dir = Directory.GetCurrentDirectory();
         var path = Path.GetFullPath(dir + @"/../AdditionalFiles/" + sample);

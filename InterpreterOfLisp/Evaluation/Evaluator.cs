@@ -13,9 +13,12 @@ public class Evaluator
     public void Evaluate()
     {
         var env = new Environment();
-
-        foreach (var i in this._astRootNode.Children) {
-            Evaluate(env, (dynamic)i);
+        
+        Console.WriteLine("\n\n\nEVALUATION:");
+        
+        foreach (var i in _astRootNode.Children) {
+            AstElementNode ans =  Evaluate(env, (dynamic)i);
+            Console.WriteLine(ans.ToString());
         }
     }
     
@@ -24,9 +27,16 @@ public class Evaluator
         // Eval Identifier
         Console.WriteLine("Eval Identifier");
 
-        var id = node.Token.Value!.ToString()!;
-        env.GetEntry(id);
-        return new AstElementNode();
+        var id = node.Token.Value!.ToString();
+        
+        return env.GetEntry(id!);
+    }
+    
+    private AstElementNode Evaluate(Environment env, AstLiteralNode node)
+    {
+        // Eval Literal
+        Console.WriteLine("Eval Literal");
+        return node;
     }
 
     private AstElementNode Evaluate(Environment env, AstListNode node)
@@ -34,21 +44,66 @@ public class Evaluator
         // Eval ListDeclaration
         if (node.Children.Count != 0 && node.Children[0] is AstIdentifierNode)
         {
-            EvaluateApplication(env, node);
+            return EvaluateApplication(env, node);
         }
-        else
-        {
-            EvaluateList(env, node);
-        }
-        
-        return new AstElementNode();
+
+        return EvaluateList(env, node);
     }
     
     private AstElementNode EvaluateApplication(Environment env, AstListNode node)
     {
-        // Eval FuncApplicationDeclaration
         Console.WriteLine("Eval FuncApplicationDeclaration");
-        return new AstElementNode();
+        
+        var identifier = ((AstIdentifierNode)node.Children[0]).Token.Value!.ToString();
+
+        return identifier switch
+        {
+            "plus" => EvaluatePlus(env, node),
+            "minus" => EvaluateMinus(env, node),
+            "times" => EvaluateTimes(env, node),
+            "divide" => EvaluateDivide(env, node),
+            "head" => EvaluateHead(env, node),
+            "tail" => EvaluateTail(env, node),
+            "cons" => EvaluateCons(env, node),
+            "equal" => EvaluateEqual(env, node),
+            "nonequal" => EvaluateNonEqual(env, node),
+            "less" => EvaluateLess(env, node),
+            "lesseq" => EvaluateLessEq(env, node),
+            "greater" => EvaluateGreater(env, node),
+            "greatereq" => EvaluateGreaterEq(env, node),
+            "isint" => EvaluateIsInt(env, node),
+            "isreal" => EvaluateIsReal(env, node),
+            "isbool" => EvaluateIsBool(env, node),
+            "isnull" => EvaluateIsNull(env, node),
+            "isatom" => EvaluateIsAtom(env, node),
+            "islist" => EvaluateIsList(env, node),
+            "and" => EvaluateAnd(env, node),
+            "or" => EvaluateOr(env, node),
+            "xor" => EvaluateXor(env, node),
+            "not" => EvaluateNot(env, node),
+            "eval" => EvaluateEval(env, node),
+            _ => EvaluateApplication(env, node, identifier!)
+        };
+    }
+
+    private AstElementNode EvaluateApplication(Environment env, AstListNode node, string id)
+    {
+        Console.WriteLine("Eval UserDefined");
+
+        var context = new Environment(env);
+        var func = (AstFuncNode)env.GetEntry(id);
+
+        if (node.Children.Count - 1 != func.Parameters.Count)
+            throw new Exception("Arguments count mismatch");
+        
+        for (var i = 0; i < func.Parameters.Count; i++)
+        {
+            var argName = func.Parameters[i].Token.Value!.ToString()!;
+            AstElementNode value = Evaluate(context, (dynamic)node.Children[i + 1]);
+            context.AddEntry(argName, value);
+        }
+        
+        return Evaluate(context, (dynamic)func.Body);
     }
     
     private AstElementNode EvaluateList(Environment env, AstListNode node)
@@ -56,15 +111,21 @@ public class Evaluator
         // Eval AtomsListDeclaration
         // Для каждого элемента листа сделать eval
         Console.WriteLine("Eval AtomsListDeclaration");
-        return new AstElementNode();
+
+        for (var i = 0; i < node.Children.Count(); i++)
+        {
+            node.Children[i] = Evaluate(env, (dynamic)node.Children[i]);
+        }
+        
+        return node;
     }
 
 #region KEYWORDS
 
-    private AstElementNode Evaluate(Environment env, AstFuncNode node)
+    private AstElementNode Evaluate(Environment env, AstQuoteNode node)
     {
-        // Eval FuncDeclaration
-        Console.WriteLine("Eval FuncDeclaration");
+        // Eval Quote
+        Console.WriteLine("Eval Quote");
         return new AstElementNode();
     }
 
@@ -74,11 +135,28 @@ public class Evaluator
         Console.WriteLine("Eval SetQ");
         return new AstElementNode();
     }
-    
+
+    private AstElementNode Evaluate(Environment env, AstFuncNode node)
+    {
+        // Eval FuncDeclaration
+        Console.WriteLine("Eval FuncDeclaration");
+        
+        var id = node.Name.Token.Value!.ToString();
+        env.AddEntry(id!, node);
+        
+        return node.Name;
+    }
+
     private AstElementNode Evaluate(Environment env, AstLambdaNode node)
     {
         // Eval Lambda
         Console.WriteLine("Eval Lambda");
+
+        // Работаем дальше с контекстом, а не env
+        // Context - это локальный контекст, создаем новый на основе предыдущего
+        // Чтобы hadowing аботал конкретно
+        var context = new Environment(env);
+
         return new AstElementNode();
     }
     
@@ -86,6 +164,12 @@ public class Evaluator
     {
         // Eval Prog
         Console.WriteLine("Eval Prog");
+        
+        // Работаем дальше с контекстом, а не env
+        // Context - это локальный контекст, создаем новый на основе предыдущего
+        // Чтобы hadowing аботал конкретно
+        var context = new Environment(env);
+        
         return new AstElementNode();
     }
     
@@ -96,6 +180,12 @@ public class Evaluator
         // Evaluate(env, (dynamic)node.TrueArgument);
         // Evaluate(env, (dynamic)node.Condition);
         // Evaluate(env, (dynamic)node.FalseArgument!);
+        
+        // Работаем дальше с контекстом, а не env
+        // Context - это локальный контекст, создаем новый на основе предыдущего
+        // Чтобы hadowing аботал конкретно
+        var context = new Environment(env);
+        
         return new AstElementNode();
     }
     
@@ -103,6 +193,12 @@ public class Evaluator
     {
         // Eval While
         Console.WriteLine("Eval While");
+        
+        // Работаем дальше с контекстом, а не env
+        // Context - это локальный контекст, создаем новый на основе предыдущего
+        // Чтобы hadowing аботал конкретно
+        var context = new Environment(env);
+        
         return new AstElementNode();
     }
     
