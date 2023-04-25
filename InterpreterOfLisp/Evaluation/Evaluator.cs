@@ -55,6 +55,7 @@ public class Evaluator
         Console.WriteLine("Eval FuncApplicationDeclaration");
         
         var identifier = ((AstIdentifierNode)node.Children[0]).Token.Value!.ToString();
+        node.Children.RemoveAt(0);
 
         return identifier switch
         {
@@ -93,13 +94,13 @@ public class Evaluator
         var context = new Environment(env);
         var func = (AstFuncNode)env.GetEntry(id);
 
-        if (node.Children.Count - 1 != func.Parameters.Count)
+        if (node.Children.Count != func.Parameters.Count)
             throw new Exception("Arguments count mismatch");
         
         for (var i = 0; i < func.Parameters.Count; i++)
         {
             var argName = func.Parameters[i].Token.Value!.ToString()!;
-            AstElementNode value = Evaluate(context, (dynamic)node.Children[i + 1]);
+            AstElementNode value = Evaluate(context, (dynamic)node.Children[i]);
             context.AddEntry(argName, value);
         }
         
@@ -112,7 +113,7 @@ public class Evaluator
         // Для каждого элемента листа сделать eval
         Console.WriteLine("Eval AtomsListDeclaration");
 
-        for (var i = 0; i < node.Children.Count(); i++)
+        for (var i = 0; i < node.Children.Count; i++)
         {
             node.Children[i] = Evaluate(env, (dynamic)node.Children[i]);
         }
