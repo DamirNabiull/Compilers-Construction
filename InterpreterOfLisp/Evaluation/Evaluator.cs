@@ -126,7 +126,7 @@ public class Evaluator
     {
         // Eval Quote
         Console.WriteLine("Eval Quote");
-        return new AstElementNode();
+        return node;
     }
 
     private AstElementNode Evaluate(Environment env, AstSetQNode node)
