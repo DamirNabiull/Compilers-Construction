@@ -106,7 +106,7 @@ public class TypecheckerEnv {
         },
         {
             "not", 
-            new FuncType(new List<AbsType> {new BooleanType(), new BooleanType()}, new BooleanType())
+            new FuncType(new List<AbsType> {new BooleanType()}, new BooleanType())
         },
 
         // eval
