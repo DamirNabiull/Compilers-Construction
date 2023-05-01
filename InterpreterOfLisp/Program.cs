@@ -10,7 +10,7 @@ class Program
 {
     private static void Main(string[] args)
     {
-        var sample = "sample_1.lsp";
+        var sample = "prog.lsp";
         
         var dir = Directory.GetCurrentDirectory();
         var path = Path.GetFullPath(dir + @"/../AdditionalFiles/" + sample);
@@ -27,7 +27,6 @@ class Program
         var semanticsAnalyzer = new Typechecker(rootNode);
         semanticsAnalyzer.TypecheckProgram();
 
-        var evaluator = new Evaluator(rootNode);
-        evaluator.Evaluate();
+        Evaluator.Evaluate(rootNode);
     }
 }
