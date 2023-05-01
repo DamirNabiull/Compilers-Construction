@@ -151,7 +151,7 @@ public class TypecheckerEnv {
     }
 
     public void AddEnvEntry(string id, AbsType t) {
-        this._currentEnv.Add(id, t);
+        this._currentEnv[id] = t;
     }
 
     public AbsType? EnvGetEntry(string id) {
