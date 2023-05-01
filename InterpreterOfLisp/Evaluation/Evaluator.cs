@@ -3,26 +3,20 @@
 namespace InterpreterOfLisp.Evaluation;
 
 public class Evaluator
-{
-    private readonly AstProgramNode _astRootNode;
-    
-    public Evaluator(AstProgramNode astRootNode) {
-        _astRootNode = astRootNode;
-    }
-    
-    public void Evaluate()
+{   
+    public static void Evaluate(AstProgramNode astRootNode)
     {
         var env = new Environment();
         
         Console.WriteLine("\n\n\nEVALUATION:");
         
-        foreach (var i in _astRootNode.Children) {
-            AstElementNode ans =  Evaluate(env, (dynamic)i);
+        foreach (var i in astRootNode.Children) {
+            AstElementNode ans = Evaluate(env, (dynamic)i);
             Console.WriteLine(ans.ToString());
         }
     }
     
-    private AstElementNode Evaluate(Environment env, AstIdentifierNode node)
+    public static AstElementNode Evaluate(Environment env, AstIdentifierNode node)
     {
         // Eval Identifier
         Console.WriteLine("Eval Identifier");
@@ -32,14 +26,14 @@ public class Evaluator
         return env.GetEntry(id!);
     }
     
-    private AstElementNode Evaluate(Environment env, AstLiteralNode node)
+    public static AstElementNode Evaluate(Environment env, AstLiteralNode node)
     {
         // Eval Literal
         Console.WriteLine("Eval Literal");
         return node;
     }
 
-    private AstElementNode Evaluate(Environment env, AstListNode node)
+    public static AstElementNode Evaluate(Environment env, AstListNode node)
     {
         // Eval ListDeclaration
         if (node.Children.Count != 0 && node.Children[0] is AstIdentifierNode)
@@ -50,7 +44,7 @@ public class Evaluator
         return EvaluateList(env, node);
     }
     
-    private AstElementNode EvaluateApplication(Environment env, AstListNode node)
+    public static AstElementNode EvaluateApplication(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval FuncApplicationDeclaration");
         
@@ -87,7 +81,7 @@ public class Evaluator
         };
     }
 
-    private AstElementNode EvaluateApplication(Environment env, AstListNode node, string id)
+    public static AstElementNode EvaluateApplication(Environment env, AstListNode node, string id)
     {
         Console.WriteLine("Eval UserDefined");
 
@@ -107,7 +101,7 @@ public class Evaluator
         return Evaluate(context, (dynamic)func.Body);
     }
     
-    private AstElementNode EvaluateList(Environment env, AstListNode node)
+    public static AstElementNode EvaluateList(Environment env, AstListNode node)
     {
         // Eval AtomsListDeclaration
         // Для каждого элемента листа сделать eval
@@ -123,21 +117,21 @@ public class Evaluator
 
 #region KEYWORDS
 
-    private AstElementNode Evaluate(Environment env, AstQuoteNode node)
+    public static AstElementNode Evaluate(Environment env, AstQuoteNode node)
     {
         // Eval Quote
         Console.WriteLine("Eval Quote");
         return node;
     }
 
-    private AstElementNode Evaluate(Environment env, AstSetQNode node)
+    public static AstElementNode Evaluate(Environment env, AstSetQNode node)
     {
         // Eval SetQ
         Console.WriteLine("Eval SetQ");
         return new AstElementNode();
     }
 
-    private AstElementNode Evaluate(Environment env, AstFuncNode node)
+    public static AstElementNode Evaluate(Environment env, AstFuncNode node)
     {
         // Eval FuncDeclaration
         Console.WriteLine("Eval FuncDeclaration");
@@ -148,7 +142,7 @@ public class Evaluator
         return node.Name;
     }
 
-    private AstElementNode Evaluate(Environment env, AstLambdaNode node)
+    public static AstElementNode Evaluate(Environment env, AstLambdaNode node)
     {
         // Eval Lambda
         Console.WriteLine("Eval Lambda");
@@ -161,7 +155,7 @@ public class Evaluator
         return new AstElementNode();
     }
     
-    private AstElementNode Evaluate(Environment env, AstProgNode node)
+    public static AstElementNode Evaluate(Environment env, AstProgNode node)
     {
         // Eval Prog
         Console.WriteLine("Eval Prog");
@@ -174,7 +168,7 @@ public class Evaluator
         return new AstElementNode();
     }
     
-    private AstElementNode Evaluate(Environment env, AstCondNode node)
+    public static AstElementNode Evaluate(Environment env, AstCondNode node)
     {
         // Eval Cond
         Console.WriteLine("Eval Cond");
@@ -190,7 +184,7 @@ public class Evaluator
         return new AstElementNode();
     }
     
-    private AstElementNode Evaluate(Environment env, AstWhileNode node)
+    public static AstElementNode Evaluate(Environment env, AstWhileNode node)
     {
         // Eval While
         Console.WriteLine("Eval While");
@@ -203,14 +197,14 @@ public class Evaluator
         return new AstElementNode();
     }
     
-    private AstElementNode Evaluate(Environment env, AstReturnNode node)
+    public static AstElementNode Evaluate(Environment env, AstReturnNode node)
     {
         // Eval Return
         Console.WriteLine("Eval Return");
         return new AstElementNode();
     }
     
-    private AstElementNode Evaluate(Environment env, AstBreakNode node)
+    public static AstElementNode Evaluate(Environment env, AstBreakNode node)
     {
         // Eval Break
         Console.WriteLine("Eval Break");
@@ -223,25 +217,25 @@ public class Evaluator
 
 #region Arithmetic
 
-    private AstElementNode EvaluatePlus(Environment env, AstListNode node)
+    public static AstElementNode EvaluatePlus(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Plus");
         return new AstElementNode();
     }
 
-    private AstElementNode EvaluateMinus(Environment env, AstListNode node)
+    public static AstElementNode EvaluateMinus(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Minus");
         return new AstElementNode();
     }
 
-    private AstElementNode EvaluateTimes(Environment env, AstListNode node)
+    public static AstElementNode EvaluateTimes(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Times");
         return new AstElementNode();
     }
 
-    private AstElementNode EvaluateDivide(Environment env, AstListNode node)
+    public static AstElementNode EvaluateDivide(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Divide");
         return new AstElementNode();
@@ -251,19 +245,19 @@ public class Evaluator
 
 #region ListOperations
 
-    private AstElementNode EvaluateHead(Environment env, AstListNode node)
+    public static AstElementNode EvaluateHead(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Head");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateTail(Environment env, AstListNode node)
+    public static AstElementNode EvaluateTail(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Tail");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateCons(Environment env, AstListNode node)
+    public static AstElementNode EvaluateCons(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Cons");
         return new AstElementNode();
@@ -273,37 +267,37 @@ public class Evaluator
 
 #region Comparisons
 
-    private AstElementNode EvaluateEqual(Environment env, AstListNode node)
+    public static AstElementNode EvaluateEqual(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Equal");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateNonEqual(Environment env, AstListNode node)
+    public static AstElementNode EvaluateNonEqual(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval NonEqual");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateLess(Environment env, AstListNode node)
+    public static AstElementNode EvaluateLess(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Less");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateLessEq(Environment env, AstListNode node)
+    public static AstElementNode EvaluateLessEq(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval LessEq");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateGreater(Environment env, AstListNode node)
+    public static AstElementNode EvaluateGreater(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Greater");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateGreaterEq(Environment env, AstListNode node)
+    public static AstElementNode EvaluateGreaterEq(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval GreaterEq");
         return new AstElementNode();
@@ -313,37 +307,37 @@ public class Evaluator
 
 #region Predicates
 
-    private AstElementNode EvaluateIsInt(Environment env, AstListNode node)
+    public static AstElementNode EvaluateIsInt(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval IsInt");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateIsReal(Environment env, AstListNode node)
+    public static AstElementNode EvaluateIsReal(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval IsReal");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateIsBool(Environment env, AstListNode node)
+    public static AstElementNode EvaluateIsBool(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval IsBool");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateIsNull(Environment env, AstListNode node)
+    public static AstElementNode EvaluateIsNull(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval IsNull");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateIsAtom(Environment env, AstListNode node)
+    public static AstElementNode EvaluateIsAtom(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval IsAtom");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateIsList(Environment env, AstListNode node)
+    public static AstElementNode EvaluateIsList(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval IsList");
         return new AstElementNode();
@@ -353,25 +347,25 @@ public class Evaluator
 
 #region LogicalOperations
 
-    private AstElementNode EvaluateAnd(Environment env, AstListNode node)
+    public static AstElementNode EvaluateAnd(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval And");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateOr(Environment env, AstListNode node)
+    public static AstElementNode EvaluateOr(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Or");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateXor(Environment env, AstListNode node)
+    public static AstElementNode EvaluateXor(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Xor");
         return new AstElementNode();
     }
     
-    private AstElementNode EvaluateNot(Environment env, AstListNode node)
+    public static AstElementNode EvaluateNot(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Not");
         return new AstElementNode();
@@ -381,7 +375,7 @@ public class Evaluator
 
 #region Evaluator
 
-    private AstElementNode EvaluateEval(Environment env, AstListNode node)
+    public static AstElementNode EvaluateEval(Environment env, AstListNode node)
     {
         Console.WriteLine("Eval Eval");
         return new AstElementNode();
