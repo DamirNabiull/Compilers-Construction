@@ -21,11 +21,12 @@ public class Typechecker {
     protected TypecheckerEnv TypecheckSetQ(TypecheckerEnv env, AstSetQNode node, AbsType t) {
         env.AddEnvEntry(node.Assignee.Token.Value.ToString(), new AbsType());
         this.TypecheckElement(env, node.AssignedValue, new AbsType());
-        env.EnvPopEntry(node.Assignee.Token.Value.ToString());
+        // env.EnvPopEntry(node.Assignee.Token.Value.ToString());
         return env;
     }
 
-    protected TypecheckerEnv TypecheckFunc(TypecheckerEnv env, AstFuncNode node, AbsType t) {
+    protected TypecheckerEnv TypecheckFunc(TypecheckerEnv env, AstFuncNode node, AbsType t)
+    {
         env.AddEnvEntry(
             node.Name.Token.Value.ToString(), 
             new FuncType(
@@ -33,58 +34,74 @@ public class Typechecker {
                 new AbsType()
             )
         );
+        
+        var local = new TypecheckerEnv(env);
+        
         foreach (var i in node.Parameters) {
-            env.AddEnvEntry(i.Token.Value.ToString(), new AbsType());
+            local.AddEnvEntry(i.Token.Value.ToString(), new AbsType());
         }
-        env.AddKeywordContext("func");
-        this.TypecheckElement(env, node.Body, new AbsType());
-        env.PopKeywordContext("func");
-        foreach (var i in node.Parameters) {
-            env.EnvPopEntry(i.Token.Value.ToString());
-        }
+        local.AddKeywordContext("func");
+        this.TypecheckElement(local, node.Body, new AbsType());
+        local.PopKeywordContext("func");
+        // foreach (var i in node.Parameters) {
+        //     env.EnvPopEntry(i.Token.Value.ToString());
+        // }
+        
         return env;
     }
 
     protected TypecheckerEnv TypecheckLambda(TypecheckerEnv env, AstLambdaNode node, AbsType t) {
+        var local = new TypecheckerEnv(env);
+        
         foreach (var i in node.Parameters) {
-            env.AddEnvEntry(i.Token.Value.ToString(), new AbsType());
+            local.AddEnvEntry(i.Token.Value.ToString(), new AbsType());
         }
-        env.AddKeywordContext("lambda");
-        this.TypecheckElement(env, node.Body, new AbsType());
-        env.PopKeywordContext("lambda");
-        foreach (var i in node.Parameters) {
-            env.EnvPopEntry(i.Token.Value.ToString());
-        }
+        local.AddKeywordContext("lambda");
+        this.TypecheckElement(local, node.Body, new AbsType());
+        local.PopKeywordContext("lambda");
+        // foreach (var i in node.Parameters) {
+        //     env.EnvPopEntry(i.Token.Value.ToString());
+        // }
+
         return env;
     }
 
     protected TypecheckerEnv TypecheckProg(TypecheckerEnv env, AstProgNode node, AbsType t) {
         // ig ill just leave it like that? i dont really understand what the node does from the project description
+        var local = new TypecheckerEnv(env);
+        
         foreach (var i in node.Parameters) {
-            env.AddEnvEntry(i.Token.Value.ToString(), new AbsType());
+            local.AddEnvEntry(i.Token.Value.ToString(), new AbsType());
         }
-        env.AddKeywordContext("prog");
-        this.TypecheckElement(env, node.Body, new AbsType());
-        env.PopKeywordContext("prog");
-        foreach (var i in node.Parameters) {
-            env.EnvPopEntry(i.Token.Value.ToString());
-        }
+        local.AddKeywordContext("prog");
+        this.TypecheckElement(local, node.Body, new AbsType());
+        local.PopKeywordContext("prog");
+        // foreach (var i in node.Parameters) {
+        //     env.EnvPopEntry(i.Token.Value.ToString());
+        // }
+
         return env;
     }
 
     protected TypecheckerEnv TypecheckCond(TypecheckerEnv env, AstCondNode node, AbsType t) {
-        this.TypecheckElement(env, node.Condition, new AbsType());
-        this.TypecheckElement(env, node.TrueArgument, new AbsType());
+        var local = new TypecheckerEnv(env);
+        
+        this.TypecheckElement(local, node.Condition, new AbsType());
+        this.TypecheckElement(local, node.TrueArgument, new AbsType());
         if (node.FalseArgument != null)
-            this.TypecheckElement(env, node.FalseArgument, new AbsType());
+            this.TypecheckElement(local, node.FalseArgument, new AbsType());
+
         return env;
     }
 
     protected TypecheckerEnv TypecheckWhile(TypecheckerEnv env, AstWhileNode node, AbsType t) {
-        this.TypecheckElement(env, node.Condition, new AbsType());
-        env.AddKeywordContext("while");
-        this.TypecheckElement(env, node.Body, new AbsType());
-        env.PopKeywordContext("while");
+        var local = new TypecheckerEnv(env);
+        
+        this.TypecheckElement(local, node.Condition, new AbsType());
+        local.AddKeywordContext("while");
+        this.TypecheckElement(local, node.Body, new AbsType());
+        local.PopKeywordContext("while");
+
         return env;
     }
 
@@ -111,9 +128,11 @@ public class Typechecker {
     }
 
     protected TypecheckerEnv TypecheckList(TypecheckerEnv env, AstListNode node, AbsType t) {
+        var local = new TypecheckerEnv(env);
+        
         if (node.Children.Count != 0 && node.Children[0] is AstIdentifierNode idnode) {
-            this.TypecheckIdentifier(env, idnode, new AbsType());
-            AbsType found = env.EnvGetEntry(idnode.Token.Value.ToString())!;
+            this.TypecheckIdentifier(local, idnode, new AbsType());
+            AbsType found = local.EnvGetEntry(idnode.Token.Value.ToString())!;
             if (found is FuncType ft) {
                 if (ft.argumentTypes.Count != node.Children.Count - 1) {
                     throw new Exception("Argument type mismatch");
@@ -124,7 +143,7 @@ public class Typechecker {
         }
 
         foreach (var i in node.Children) {
-            this.TypecheckElement(env, i, new AbsType());
+            this.TypecheckElement(local, i, new AbsType());
         }
 
         return env;

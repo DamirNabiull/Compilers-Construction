@@ -123,6 +123,11 @@ public class TypecheckerEnv {
         this._currentEnv = new Dictionary<string, AbsType>(TypecheckerEnv.DefaultEnv);
         this._keywordContext = new List<string>{};
     }
+    
+    public TypecheckerEnv(TypecheckerEnv env) {
+        this._currentEnv = env._currentEnv;
+        this._keywordContext = env._keywordContext;
+    }
 
     public void AddKeywordContext(string k) {
         this._keywordContext.Add(k);
@@ -147,10 +152,6 @@ public class TypecheckerEnv {
 
     public void AddEnvEntry(string id, AbsType t) {
         this._currentEnv.Add(id, t);
-    }
-
-    public void EnvPopEntry(string id) {
-        this._currentEnv.Remove(id);
     }
 
     public AbsType? EnvGetEntry(string id) {
