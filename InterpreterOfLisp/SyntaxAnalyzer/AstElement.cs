@@ -52,7 +52,7 @@ public class AstQuoteNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstQuoteNode()";
+        return "QuoteNode()";
     }
 }
 
@@ -74,7 +74,7 @@ public class AstSetQNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstSetQNode()";
+        return "SetQNode()";
     }
 }
 
@@ -108,7 +108,7 @@ public class AstFuncNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstFuncNode()";
+        return "FuncNode()";
     }
 }
 
@@ -137,7 +137,7 @@ public class AstLambdaNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstLambdaNode()";
+        return "LambdaNode()";
     }
 }
 
@@ -165,7 +165,7 @@ public class AstProgNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstProgNode()";
+        return "ProgNode()";
     }
 }
 
@@ -185,7 +185,7 @@ public class AstCondNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstCondNode()";
+        return "CondNode()";
     }
 }
 
@@ -203,7 +203,7 @@ public class AstWhileNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstWhileNode()";
+        return "WhileNode()";
     }
 }
 
@@ -218,7 +218,7 @@ public class AstReturnNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstReturnNode()";
+        return "ReturnNode()";
     }
 }
 
@@ -230,7 +230,7 @@ public class AstBreakNode : AstKeywordNode {
     }
 
     public override string ToString() {
-        return "AstBreakNode()";
+        return "BreakNode()";
     }
 }
 
@@ -242,7 +242,7 @@ public class AstIdentifierNode : AstElementNode {
     }
 
     public override string ToString() {
-        return $"AstIdentifierNode({Token.Value})";
+        return $"{Token.Value}";
     }
 }
 
@@ -254,6 +254,6 @@ public class AstLiteralNode : AstElementNode {
     }
 
     public override string ToString() {
-        return $"AstLiteralNode({Token.Value})";
+        return $"{Token.Value}";
     }
 }

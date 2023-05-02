@@ -52,6 +52,11 @@ public class RuntimeNull : RuntimeValue, IRuntimeValue<RuntimeNull> {
     public RuntimeNull ReadValue() {
         return this;
     }
+
+    public override string ToString()
+    {
+        return "null";
+    }
 }
 
 public class RuntimeBool : RuntimeValue, IRuntimeComparableValue<Boolean> {

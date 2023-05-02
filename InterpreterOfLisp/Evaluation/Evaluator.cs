@@ -3,18 +3,39 @@
 namespace InterpreterOfLisp.Evaluation;
 
 public class Evaluator
-{   
+{
+    private static bool _toPrint = true;
+    
     public static void Evaluate(AstProgramNode astRootNode)
     {
         var env = new Environment();
         
-        Console.WriteLine("\n\n\nEVALUATION:");
-
+        Console.WriteLine();
 
         try {
             foreach (var i in astRootNode.Children) {
                 dynamic ans = Evaluate(env, (dynamic)i);
-                Console.WriteLine(ans.ReadValue());
+                if (_toPrint)
+                {
+                    var readValue = ans.ReadValue();
+                    if (readValue is List<object>)
+                    {
+                        Console.Write("(");
+                        for (int j = 0; j < readValue.Count; j++)
+                        {
+                            var value = readValue[j];
+                            Console.Write($"{value.ReadValue()}");
+                            
+                            if (j != readValue.Count - 1)
+                                Console.Write(' ');
+                        }
+                        Console.Write(")\n");
+                        continue;
+                    }
+                    Console.WriteLine(readValue);
+                }
+                
+                _toPrint = true;
             }
         } catch (ControlException exc) {
             Console.WriteLine($"Catched {exc}. Finishing programm");
@@ -28,11 +49,13 @@ public class Evaluator
 
         var id = node.Token.Value!.ToString();
         
+        _toPrint = true;
         return env.GetEntry(id!);
     }
     
     public static dynamic Evaluate(Environment env, AstLiteralNode node)
     {
+        _toPrint = true;
         // Eval Literal
         //Console.WriteLine("Eval Literal");
         if (node.Token.Value is int) {
@@ -44,11 +67,16 @@ public class Evaluator
         if (node.Token.Value is double) {
             return new RuntimeBool((dynamic) node.Token.Value);
         }
+        if (node.Token.Value is null)
+        {
+            return new RuntimeNull();
+        }
         throw new Exception("literal node contain non-literal value");
     }
 
     public static dynamic Evaluate(Environment env, AstListNode node)
     {
+        _toPrint = true;
         // Eval ListDeclaration
         if (node.Children.Count != 0 && node.Children[0] is AstIdentifierNode)
         {
@@ -146,6 +174,8 @@ public class Evaluator
         var evaluatedValue = Evaluate(env, (dynamic)node.AssignedValue);
         var id = node.Assignee.Token.Value!.ToString();
         env.AddEntry(id!, evaluatedValue);
+
+        _toPrint = false;
         return evaluatedValue;
     }
 
@@ -159,6 +189,7 @@ public class Evaluator
         var func = new RuntimeFunction(node.Parameters.ConvertAll(param => param.Token.Value!.ToString()!), node.Body);
         env.AddEntry(id!, func);
         
+        _toPrint = false;
         return func;
     }
 
@@ -169,6 +200,7 @@ public class Evaluator
 
         var func = new RuntimeFunction(node.Parameters.ConvertAll(param => param.Token.Value!.ToString()!), node.Body);
 
+        _toPrint = false;
         return func;
     }
     
@@ -185,6 +217,7 @@ public class Evaluator
             context.AddEntry(id, env.GetEntry(id));
         }
         
+        _toPrint = true;
         return new RuntimeProgFunction(node.Body).Call(new List<AstElementNode>(), context);
     }
 
@@ -194,7 +227,8 @@ public class Evaluator
         if (cond is not RuntimeBool) {
             throw new Exception("Result of condition is not boolean");
         }
-        return (dynamic) cond;
+        
+        return cond;
     }
     
     public static dynamic Evaluate(Environment env, AstCondNode node)
@@ -215,11 +249,14 @@ public class Evaluator
     {
         // Eval While
         //Console.WriteLine("Eval While");
+        
         try {
             while (EvaluateCondition(env, node.Condition).ReadValue()) {
                 Evaluate(env, (dynamic) node.Body);
             }
         } catch (BreakException) { }
+        
+        _toPrint = false;
         
         return new RuntimeNull();
     }

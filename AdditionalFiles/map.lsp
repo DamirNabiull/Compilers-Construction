@@ -10,3 +10,4 @@
 (setq x (map mino (1 2 3 4 5)))
 (head x)
 (head (tail x))
+(tail x)

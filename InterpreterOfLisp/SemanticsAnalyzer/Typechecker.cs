@@ -68,7 +68,7 @@ public class Typechecker {
 
     protected TypecheckerEnv TypecheckProg(TypecheckerEnv env, AstProgNode node, AbsType t) {
         // ig ill just leave it like that? i dont really understand what the node does from the project description
-        var local = new TypecheckerEnv(env);
+        var local = new TypecheckerEnv();
         
         foreach (var i in node.Parameters) {
             local.AddEnvEntry(i.Token.Value.ToString(), new AbsType());

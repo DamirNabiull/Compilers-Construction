@@ -1,1 +1,1 @@
-(print (eval (quote (plus 1 2))))
+(eval (quote (plus 1 2)))
