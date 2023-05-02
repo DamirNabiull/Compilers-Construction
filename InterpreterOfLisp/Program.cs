@@ -28,7 +28,8 @@ class Program
         "bad_sample.lsp", // 14
         "quote_bad.lsp", // 15
         "prog_bad.lsp", // 16
-        "sample_2.lsp" // 17
+        "sample_2.lsp", // 17
+        "bad_sample_1.lsp" // 18
     };
     
     private static void Main(string[] args)
