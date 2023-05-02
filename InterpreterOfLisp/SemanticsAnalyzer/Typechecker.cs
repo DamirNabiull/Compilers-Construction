@@ -113,9 +113,9 @@ public class Typechecker {
     }
 
     protected TypecheckerEnv TypecheckBreak(TypecheckerEnv env, AstBreakNode node, AbsType t) {
-        if (!env.IsInKeywordContext(new List<string> {"while"})) {
-            throw new Exception("Unexpected break keyword");
-        }
+        // if (!env.IsInKeywordContext(new List<string> {"while"})) {
+        //     throw new Exception("Unexpected break keyword");
+        // }
         return env;
     }
 
