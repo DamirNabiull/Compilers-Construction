@@ -4,4 +4,4 @@
             (fibonacci (minus n 2))))
         (return n)))
 
-(fibonacci +4)
+(fibonacci +6)
