@@ -24,7 +24,7 @@ public class Evaluator
     public static object Evaluate(Environment env, AstIdentifierNode node)
     {
         // Eval Identifier
-        Console.WriteLine("Eval Identifier");
+        //// Console.WriteLine("Eval Identifier");
 
         var id = node.Token.Value!.ToString();
         
@@ -34,7 +34,7 @@ public class Evaluator
     public static dynamic Evaluate(Environment env, AstLiteralNode node)
     {
         // Eval Literal
-        Console.WriteLine("Eval Literal");
+        //Console.WriteLine("Eval Literal");
         if (node.Token.Value is int) {
             return new RuntimeInt((dynamic) node.Token.Value);
         }
@@ -60,7 +60,7 @@ public class Evaluator
     
     public static dynamic EvaluateApplication(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval FuncApplicationDeclaration");
+        //Console.WriteLine("Eval FuncApplicationDeclaration");
         
         var identifier = ((AstIdentifierNode)node.Children[0]).Token.Value!.ToString();
 
@@ -98,7 +98,7 @@ public class Evaluator
 
     public static RuntimeFunction EvaluateApplication(Environment env, AstListNode node, string id)
     {
-        Console.WriteLine("Eval UserDefined");
+        //Console.WriteLine("Eval UserDefined");
 
         var context = new Environment(env);
         var runtimeValue = env.GetEntry(id);
@@ -115,7 +115,7 @@ public class Evaluator
     {
         // Eval AtomsListDeclaration
         // Для каждого элемента листа сделать eval
-        Console.WriteLine("Eval AtomsListDeclaration");
+        //Console.WriteLine("Eval AtomsListDeclaration");
 
         var evaluated = new List<dynamic>();
         for (var i = 0; i < node.Children.Count; i++)
@@ -134,14 +134,14 @@ public class Evaluator
     public static RuntimeQuote Evaluate(Environment env, AstQuoteNode node)
     {
         // Eval Quote
-        Console.WriteLine("Eval Quote");
-        return new RuntimeQuote(node);
+        //Console.WriteLine("Eval Quote");
+        return new RuntimeQuote(node.Element);
     }
 
     public static dynamic Evaluate(Environment env, AstSetQNode node)
     {
         // Eval SetQ
-        Console.WriteLine("Eval SetQ");
+        //Console.WriteLine("Eval SetQ");
 
         var evaluatedValue = Evaluate(env, (dynamic)node.AssignedValue);
         var id = node.Assignee.Token.Value!.ToString();
@@ -152,7 +152,7 @@ public class Evaluator
     public static dynamic Evaluate(Environment env, AstFuncNode node)
     {
         // Eval FuncDeclaration
-        Console.WriteLine("Eval FuncDeclaration");
+        //Console.WriteLine("Eval FuncDeclaration");
         
         var id = node.Name.Token.Value!.ToString();
 
@@ -165,7 +165,7 @@ public class Evaluator
     public static dynamic Evaluate(Environment env, AstLambdaNode node)
     {
         // Eval Lambda
-        Console.WriteLine("Eval Lambda");
+        //Console.WriteLine("Eval Lambda");
 
         var func = new RuntimeFunction(node.Parameters.ConvertAll(param => param.Token.Value!.ToString()!), node.Body);
 
@@ -175,7 +175,7 @@ public class Evaluator
     public static dynamic Evaluate(Environment env, AstProgNode node)
     {
         // Eval Prog
-        Console.WriteLine("Eval Prog");
+        //Console.WriteLine("Eval Prog");
 
         var context = new Environment();
 
@@ -200,7 +200,7 @@ public class Evaluator
     public static dynamic Evaluate(Environment env, AstCondNode node)
     {
         // Eval Cond
-        Console.WriteLine("Eval Cond");
+        //Console.WriteLine("Eval Cond");
 
         var cond = EvaluateCondition(env, node.Condition);
         if (cond.ReadValue()) {
@@ -214,7 +214,7 @@ public class Evaluator
     public static RuntimeNull Evaluate(Environment env, AstWhileNode node)
     {
         // Eval While
-        Console.WriteLine("Eval While");
+        //Console.WriteLine("Eval While");
         try {
             while (EvaluateCondition(env, node.Condition).ReadValue()) {
                 Evaluate(env, (dynamic) node.Body);
@@ -227,7 +227,7 @@ public class Evaluator
     public static RuntimeNull Evaluate(Environment env, AstReturnNode node)
     {
         // Eval Return
-        Console.WriteLine("Eval Return");
+        //Console.WriteLine("Eval Return");
         var returnedValue = Evaluate(env, (dynamic)node.ReturnValue);
         throw new ReturnException(returnedValue);
     }
@@ -235,7 +235,7 @@ public class Evaluator
     public static RuntimeNull Evaluate(Environment env, AstBreakNode node)
     {
         // Eval Break
-        Console.WriteLine("Eval Break");
+        //Console.WriteLine("Eval Break");
         throw new BreakException();
     }
 
@@ -247,25 +247,25 @@ public class Evaluator
 
     public static RuntimeFunction EvaluatePlus(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Plus");
+        //Console.WriteLine("Eval Plus");
         return new RuntimePlusFunction();
     }
 
     public static RuntimeFunction EvaluateMinus(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Minus");
+        //Console.WriteLine("Eval Minus");
         return new RuntimeMinusFunction();
     }
 
     public static RuntimeFunction EvaluateTimes(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Times");
+        //Console.WriteLine("Eval Times");
         return new RuntimeTimesFunction();
     }
 
     public static RuntimeFunction EvaluateDivide(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Divide");
+        //Console.WriteLine("Eval Divide");
         return new RuntimeDivideFunction();
     }
 
@@ -275,19 +275,19 @@ public class Evaluator
 
     public static RuntimeFunction EvaluateHead(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Head");
+        //Console.WriteLine("Eval Head");
         return new RuntimeHeadFunction();
     }
     
     public static RuntimeFunction EvaluateTail(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Tail");
+        //Console.WriteLine("Eval Tail");
        return new RuntimeTailFunction();
     }
     
     public static RuntimeFunction EvaluateCons(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Cons");
+        //Console.WriteLine("Eval Cons");
         return new RuntimeConsFunction();
     }
 
@@ -297,37 +297,37 @@ public class Evaluator
 
     public static RuntimeFunction EvaluateEqual(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Equal");
+        //Console.WriteLine("Eval Equal");
         return new RuntimeEqualFunction();
     }
     
     public static RuntimeFunction EvaluateNonEqual(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval NonEqual");
+        //Console.WriteLine("Eval NonEqual");
         return new RuntimeNonEqualFunction();
     }
     
     public static RuntimeFunction EvaluateLess(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Less");
+        //Console.WriteLine("Eval Less");
         return new RuntimeLessFunction();
     }
     
     public static RuntimeFunction EvaluateLessEq(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval LessEq");
+        //Console.WriteLine("Eval LessEq");
         return new RuntimeLessEqFunction();
     }
     
     public static RuntimeFunction EvaluateGreater(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Greater");
+        //Console.WriteLine("Eval Greater");
         return new RuntimeGreaterFunction();
     }
     
     public static RuntimeFunction EvaluateGreaterEq(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval GreaterEq");
+        //Console.WriteLine("Eval GreaterEq");
         return new RuntimeGreaterEqFunction();
     }
 
@@ -337,37 +337,37 @@ public class Evaluator
 
     public static RuntimeFunction EvaluateIsInt(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval IsInt");
+        //Console.WriteLine("Eval IsInt");
         return new RuntimeIsIntFunction();
     }
     
     public static RuntimeFunction EvaluateIsReal(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval IsReal");
+        //Console.WriteLine("Eval IsReal");
         return new RuntimeIsRealFunction();
     }
     
     public static RuntimeFunction EvaluateIsBool(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval IsBool");
+        //Console.WriteLine("Eval IsBool");
         return new RuntimeIsBoolFunction();
     }
     
     public static RuntimeFunction EvaluateIsNull(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval IsNull");
+        //Console.WriteLine("Eval IsNull");
         return new RuntimeIsNullFunction();
     }
     
     public static RuntimeFunction EvaluateIsAtom(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval IsAtom");
+        //Console.WriteLine("Eval IsAtom");
         return new RuntimeIsAtomFunction();
     }
     
     public static RuntimeFunction EvaluateIsList(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval IsList");
+        //Console.WriteLine("Eval IsList");
         return new RuntimeIsListFunction();
     }
 
@@ -377,25 +377,25 @@ public class Evaluator
 
     public static RuntimeFunction EvaluateAnd(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval And");
+        //Console.WriteLine("Eval And");
         return new RuntimeAndFunction();
     }
     
     public static RuntimeFunction EvaluateOr(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Or");
+        //Console.WriteLine("Eval Or");
         return new RuntimeOrFunction();
     }
     
     public static RuntimeFunction EvaluateXor(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Xor");
+        //Console.WriteLine("Eval Xor");
         return new RuntimeXorFunction();
     }
     
     public static RuntimeFunction EvaluateNot(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Not");
+        //Console.WriteLine("Eval Not");
         return new RuntimeNotFunction();
     }
 
@@ -405,7 +405,7 @@ public class Evaluator
 
     public static RuntimeFunction EvaluateEval(Environment env, AstListNode node)
     {
-        Console.WriteLine("Eval Eval");
+        //Console.WriteLine("Eval Eval");
         return new RuntimeEvalFunction();
     }
 

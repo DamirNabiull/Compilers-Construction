@@ -366,8 +366,13 @@ public class RuntimeHeadFunction : RuntimeFunction {
         if (args.Count != callArgs.Count)
             throw new Exception("Arguments count mismatch");
         
-        if (callArgs[0] is RuntimeList rlist) {
-            return rlist.ReadValue()[0];
+        if (callArgs[0] is RuntimeList rlist)
+        {
+            var value = rlist.ReadValue();
+            if (value.Count > 0) 
+                return rlist.ReadValue()[0];
+
+            return new RuntimeNull();
         }
 
         throw new Exception("head called on a non-list value");

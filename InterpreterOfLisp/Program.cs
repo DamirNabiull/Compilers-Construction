@@ -10,7 +10,7 @@ class Program
 {
     private static void Main(string[] args)
     {
-        var sample = "prog.lsp";
+        var sample = "quote_bad.lsp";
         
         var dir = Directory.GetCurrentDirectory();
         var path = Path.GetFullPath(dir + @"/../AdditionalFiles/" + sample);
