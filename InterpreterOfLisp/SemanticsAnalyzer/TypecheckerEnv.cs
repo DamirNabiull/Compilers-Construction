@@ -114,6 +114,12 @@ public class TypecheckerEnv {
             "eval", 
             new FuncType(new List<AbsType> {new AbsType()}, new AbsType())
         },
+        
+        // print
+        {
+            "print", 
+            new FuncType(new List<AbsType> {new AbsType()}, new AbsType())
+        },
     };
 
     private readonly Dictionary<string, AbsType> _currentEnv;
