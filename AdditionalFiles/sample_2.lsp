@@ -1,6 +1,8 @@
-(func gcd2(a b)
-    (cond(equal b 0) 
-        a
-        (gcd2 b (mod a b))))
-
-(print (gcd2 150 50))
+(print (plus 1 0.5))
+(print (minus 1 0.5))
+(print (minus 1.5 2))
+(print (plus 1.5 1))
+(print (times 1 2))
+(print (times 1.5 1.5))
+(print (divide 1 2))
+(print (divide 2.9 1.5))

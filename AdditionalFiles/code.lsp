@@ -1,3 +1,3 @@
 (setq x 1)
-(plus x 4)
-(isint x)
+(print (plus x 4))
+(print (isint x))

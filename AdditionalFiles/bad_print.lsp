@@ -1,0 +1,1 @@
+(print (plus 1 2) (plus 3 4))

@@ -2,7 +2,7 @@
 (setq y 3)
 (setq z 5)
 
-(prog (x z) (plus x z))
+(print (prog (x z) (plus x z)))
 
-(prog (x z) (plus x y))
-(prog (x s) (plus x s))
+(print (prog (x z) (plus x y)))
+(print (prog (x s) (plus x s)))

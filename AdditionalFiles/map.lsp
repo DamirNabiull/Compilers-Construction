@@ -8,6 +8,6 @@
 (func mino (n) (return (minus n 1)))
 
 (setq x (map mino (1 2 3 4 5)))
-(head x)
-(head (tail x))
-(tail x)
+(print (head x))
+(print (head (tail x)))
+(print x)

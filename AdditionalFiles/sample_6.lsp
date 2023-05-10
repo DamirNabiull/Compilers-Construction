@@ -1,3 +1,3 @@
 (func test (n) (return null))
 
-(test 3)
+(print (test 3))

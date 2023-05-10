@@ -2,4 +2,4 @@
 (setq y 2)
 (setq z (quote (plus x 'y)))
 
-x
+(print x)
