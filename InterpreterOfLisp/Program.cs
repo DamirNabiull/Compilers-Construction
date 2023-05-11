@@ -42,6 +42,8 @@ class Program
         "bad_sample_1.lsp", // 28
         "bad_print.lsp", // 29
         "bad_eval.lsp", // 30
+        "bad_lexer_0.lsp", // 31
+        "bad_lexer_1.lsp", // 32
     };
     
     private static void Main(string[] args)

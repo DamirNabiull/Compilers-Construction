@@ -122,7 +122,7 @@ public class Typechecker {
     protected TypecheckerEnv TypecheckIdentifier(TypecheckerEnv env, AstIdentifierNode node, AbsType t) {
         AbsType? found = env.EnvGetEntry(node.Token.Value.ToString());
         if (found == null) {
-            throw new Exception("Unknown indentifier: " + node.Token.Value.ToString());
+            throw new Exception("Unknown identifier: " + node.Token.Value.ToString());
         }
         return env;
     }
